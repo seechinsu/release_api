@@ -1,0 +1,34 @@
+version: '3'
+services:
+  app:
+    image: release_api:latest
+    container_name: release_api
+    build:
+      context: .
+    environment:
+      DATABASE_DB: release_api
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOST: db
+      SECRET_KEY_BASE: goOaoZF6b4qLU4uq6s8NNRr26KIE3fVRINeYn7Lg0HNvfGfsWdQznYxJZviVVpx4
+    ports:
+      - 4000:4000
+    networks:
+      - core
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: release_api
+    networks:
+      - core
+
+networks:
+  core:
